@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing Stainless &mdash; Stainless 0.7.3 documentation</title>
+  <title>Installing Stainless &mdash; Stainless 0.7.6 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Stainless 0.7.3 documentation" href="index.html"/>
+    <link rel="top" title="Stainless 0.7.6 documentation" href="index.html"/>
         <link rel="next" title="Verifying and Compiling Examples" href="gettingstarted.html"/>
         <link rel="prev" title="Introduction" href="intro.html"/> 
 
@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installing Stainless</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-requirement">General Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-code-with-stainless-dependencies">Running Code with Stainless dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#use-standalone-release-recommended">Use Standalone Release (recommended)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#via-docker">Via Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#usage-with-sbt">Usage With Sbt</a><ul>
@@ -118,6 +119,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wrap.html">Working With Existing Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="purescala.html">Pure Scala</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library.html">Stainless Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genc.html">Safe C Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="neon.html">Proving Theorems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations of Verification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="casestudies.html">Case Studies</a></li>
@@ -198,6 +200,15 @@ It suffices to have headless OpenJDK JRE 8 (e.g. one that one gets with <code cl
 Make sure that <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">-version</span></code> reports a version starting with 1.8, such as <code class="docutils literal notranslate"><span class="pre">openjdk</span> <span class="pre">version</span> <span class="pre">&quot;1.8</span></code> or <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">version</span> <span class="pre">&quot;1.8</span></code>.</p></li>
 </ul>
 </div>
+<div class="section" id="running-code-with-stainless-dependencies">
+<span id="running-code"></span><h2>Running Code with Stainless dependencies<a class="headerlink" href="#running-code-with-stainless-dependencies" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Clone the sources from <a class="reference external" href="https://github.com/epfl-lara/stainless">https://github.com/epfl-lara/stainless</a></p></li>
+<li><p>Create a folder to put compiled Scala objects: <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">-p</span> <span class="pre">~/.scala_objects</span></code></p></li>
+<li><p>Compile your code (here in <code class="docutils literal notranslate"><span class="pre">MyFile.scala</span></code>, though you can have more than one file) while referring to the Stainless library sources: <code class="docutils literal notranslate"><span class="pre">scalac</span> <span class="pre">-d</span> <span class="pre">~/.scala_objects</span> <span class="pre">$(find</span> <span class="pre">/path/to/Stainless/frontends/library/stainless/</span> <span class="pre">-name</span> <span class="pre">&quot;*.scala&quot;)</span> <span class="pre">MyFile.scala</span></code></p></li>
+<li><p>Run your code (replace <code class="docutils literal notranslate"><span class="pre">MyMainClass</span></code> with the name of your main object): <code class="docutils literal notranslate"><span class="pre">scala</span> <span class="pre">-cp</span> <span class="pre">~/.scala_objects</span> <span class="pre">MyMainClass</span></code></p></li>
+</ol>
+</div>
 <div class="section" id="use-standalone-release-recommended">
 <span id="standalone-release"></span><h2>Use Standalone Release (recommended)<a class="headerlink" href="#use-standalone-release-recommended" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
@@ -209,7 +220,7 @@ Make sure that <code class="docutils literal notranslate"><span class="pre">java
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">stainless.lang._</span>
 
 <span class="k">object</span> <span class="nc">test</span> <span class="o">{</span>
-  <span class="k">def</span> <span class="n">ok</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">ok</span> <span class="o">=</span> <span class="o">{</span>
     <span class="n">assert</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -314,7 +325,7 @@ which one can then import into their editor of choice to get started in a few st
 <li><p>In your project’s build file, enable the <code class="docutils literal notranslate"><span class="pre">StainlessPlugin</span></code> on the modules that should be verified by Stainless. Below is an example:</p></li>
 </ol>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="c1">// build.sbt</span>
-<span class="k">lazy</span> <span class="k">val</span> <span class="n">algorithm</span> <span class="k">=</span> <span class="n">project</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="n">algorithm</span> <span class="o">=</span> <span class="n">project</span>
   <span class="o">.</span><span class="n">in</span><span class="o">(</span><span class="n">file</span><span class="o">(</span><span class="s">&quot;algorithm&quot;</span><span class="o">))</span>
   <span class="o">.</span><span class="n">enablePlugins</span><span class="o">(</span><span class="nc">StainlessPlugin</span><span class="o">)</span> <span class="c1">// &lt;-- Enabling Stainless verification on this module!</span>
   <span class="o">.</span><span class="n">settings</span><span class="o">(...)</span>
@@ -490,6 +501,7 @@ was originally developed to support Python documentation.</p>
 <p>The documentation resides in the <code class="docutils literal notranslate"><span class="pre">core/src/sphinx/</span></code> directory and can be built using the provided <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>. To do this, in a Linux shell,
 type <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code>, and open in your web browser the generated top-level local HTML file, by default stored in
 <code class="docutils literal notranslate"><span class="pre">src/sphinx/_build/html/index.html</span></code>. Also, you can open the <code class="docutils literal notranslate"><span class="pre">*.rst</span></code> documentation files in a text editor, as they are human-readable in their source form as well.</p>
+<p>Note for project maintainers: to build documentation on GitHub Pages, use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">gh-pages</span></code> in the same Makefile, or adapt it to you needs.</p>
 </div>
 </div>
 
@@ -513,7 +525,7 @@ type <code class="docutils literal notranslate"><span class="pre">make</span> <s
   <div role="contentinfo">
     <p>
         &copy; Copyright 2009-2019 EPFL, Lausanne.
-      Last updated on Sep 16, 2020.
+      Last updated on Jan 20, 2021.
 
     </p>
   </div> 
@@ -534,7 +546,7 @@ type <code class="docutils literal notranslate"><span class="pre">make</span> <s
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.7.3',
+            VERSION:'0.7.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -544,7 +556,6 @@ type <code class="docutils literal notranslate"><span class="pre">make</span> <s
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

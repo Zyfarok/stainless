@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Verification conditions &mdash; Stainless 0.7.3 documentation</title>
+  <title>Verification conditions &mdash; Stainless 0.7.6 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Stainless 0.7.3 documentation" href="index.html"/>
+    <link rel="top" title="Stainless 0.7.6 documentation" href="index.html"/>
         <link rel="next" title="Specifying Algebraic Properties" href="laws.html"/>
         <link rel="prev" title="Command Line Options" href="options.html"/> 
 
@@ -107,6 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wrap.html">Working With Existing Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="purescala.html">Pure Scala</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library.html">Stainless Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genc.html">Safe C Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="neon.html">Proving Theorems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations of Verification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="casestudies.html">Case Studies</a></li>
@@ -217,7 +218,7 @@ the following for any number of parameters):</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=</span> <span class="o">{</span>
   <span class="n">require</span><span class="o">(</span><span class="n">prec</span><span class="o">)</span>
   <span class="n">body</span>
-<span class="o">}</span> <span class="n">ensuring</span><span class="o">(</span><span class="n">r</span> <span class="k">=&gt;</span> <span class="n">post</span><span class="o">)</span>
+<span class="o">}</span> <span class="n">ensuring</span><span class="o">(</span><span class="n">r</span> <span class="o">=&gt;</span> <span class="n">post</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>where, <span class="math notranslate nohighlight">\(\mbox{prec}(x)\)</span> is a Boolean expression with free variables
@@ -391,7 +392,7 @@ exhaustiveness of pattern matching.</p>
 <span class="k">def</span> <span class="n">getHead</span><span class="o">(</span><span class="n">l</span><span class="k">:</span> <span class="kt">List</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
   <span class="n">require</span><span class="o">(!</span><span class="n">l</span><span class="o">.</span><span class="n">isInstanceOf</span><span class="o">[</span><span class="kt">Nil</span><span class="o">])</span>
   <span class="n">l</span> <span class="k">match</span> <span class="o">{</span>
-    <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span>
+    <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="n">x</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -421,7 +422,7 @@ relying on the given precondition.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2009-2019 EPFL, Lausanne.
-      Last updated on Sep 16, 2020.
+      Last updated on Jan 20, 2021.
 
     </p>
   </div> 
@@ -442,7 +443,7 @@ relying on the given precondition.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.7.3',
+            VERSION:'0.7.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -452,7 +453,6 @@ relying on the given precondition.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

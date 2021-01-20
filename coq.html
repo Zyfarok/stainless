@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Translation from Stainless to Coq &mdash; Stainless 0.7.3 documentation</title>
+  <title>Translation from Stainless to Coq &mdash; Stainless 0.7.6 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Stainless 0.7.3 documentation" href="index.html"/>
+    <link rel="top" title="Stainless 0.7.6 documentation" href="index.html"/>
         <link rel="next" title="Frequently Asked Questions" href="faq.html"/>
         <link rel="prev" title="Case Studies" href="casestudies.html"/> 
 
@@ -98,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wrap.html">Working With Existing Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="purescala.html">Pure Scala</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library.html">Stainless Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genc.html">Safe C Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="neon.html">Proving Theorems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations of Verification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="casestudies.html">Case Studies</a></li>
@@ -205,7 +206,7 @@ file:</p>
 </div>
 <p>Running <code class="docutils literal notranslate"><span class="pre">stainless-scalac</span> <span class="pre">--coq</span> <span class="pre">frontends/benchmarks/coq/Arith.scala</span></code>
 generates the file <code class="docutils literal notranslate"><span class="pre">tmp/test.v</span></code> which contains the following Coq definition.</p>
-<div class="highlight-coq notranslate"><div class="highlight"><pre><span></span><span class="kn">Definition</span> <span class="n">test</span> <span class="o">(</span><span class="n">a</span><span class="o">:</span> <span class="n">Z</span><span class="o">)</span> <span class="o">(</span><span class="n">b</span><span class="o">:</span> <span class="n">Z</span><span class="o">)</span> <span class="o">(</span><span class="n">c</span><span class="o">:</span> <span class="n">Z</span><span class="o">)</span> <span class="o">(</span><span class="n">contractHyp4</span><span class="o">:</span> <span class="o">(</span><span class="n">ifthenelse</span> <span class="o">(</span><span class="n">Z</span><span class="o">.</span><span class="n">gtb</span> <span class="n">a</span> <span class="n">b</span><span class="o">)</span> <span class="kt">bool</span>
+<div class="highlight-coq notranslate"><div class="highlight"><pre><span></span><span class="kn">Definition</span> <span class="n">test</span> <span class="o">(</span><span class="n">a</span><span class="o">:</span> <span class="n">Z</span><span class="o">)</span> <span class="o">(</span><span class="n">b</span><span class="o">:</span> <span class="n">Z</span><span class="o">)</span> <span class="o">(</span><span class="n">c</span><span class="o">:</span> <span class="n">Z</span><span class="o">)</span> <span class="o">(</span><span class="n">contractHyp4</span><span class="o">:</span> <span class="o">(</span><span class="n">ifthenelse</span> <span class="o">(</span><span class="n">Z</span><span class="o">.</span><span class="n">gtb</span> <span class="n">a</span> <span class="n">b</span><span class="o">)</span> <span class="n">bool</span>
         <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">=&gt;</span> <span class="n">Z</span><span class="o">.</span><span class="n">gtb</span> <span class="n">c</span> <span class="o">(</span><span class="mi">0</span><span class="o">)%</span><span class="n">Z</span> <span class="o">)</span>
         <span class="o">(</span><span class="k">fun</span> <span class="o">_</span> <span class="o">=&gt;</span> <span class="bp">false</span> <span class="o">)</span> <span class="o">=</span> <span class="bp">true</span><span class="o">))</span> <span class="o">:</span> <span class="o">{</span><span class="n">x___1</span><span class="o">:</span> <span class="n">Z</span> <span class="o">|</span> <span class="o">(</span><span class="n">Z</span><span class="o">.</span><span class="n">gtb</span> <span class="n">x___1</span> <span class="o">(</span><span class="n">Z</span><span class="o">.</span><span class="n">add</span> <span class="n">c</span> <span class="n">b</span><span class="o">)</span> <span class="o">=</span> <span class="bp">true</span><span class="o">)}</span> <span class="o">:=</span>
 <span class="n">Z</span><span class="o">.</span><span class="n">add</span> <span class="n">c</span> <span class="n">a</span><span class="o">.</span>
@@ -245,7 +246,7 @@ succeeds when the original command fails).</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2009-2019 EPFL, Lausanne.
-      Last updated on Sep 16, 2020.
+      Last updated on Jan 20, 2021.
 
     </p>
   </div> 
@@ -266,7 +267,7 @@ succeeds when the original command fails).</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.7.3',
+            VERSION:'0.7.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -276,7 +277,6 @@ succeeds when the original command fails).</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Working With Existing Code &mdash; Stainless 0.7.3 documentation</title>
+  <title>Working With Existing Code &mdash; Stainless 0.7.6 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Stainless 0.7.3 documentation" href="index.html"/>
+    <link rel="top" title="Stainless 0.7.6 documentation" href="index.html"/>
         <link rel="next" title="Pure Scala" href="purescala.html"/>
         <link rel="prev" title="Ghost Context" href="ghost.html"/> 
 
@@ -104,6 +104,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="purescala.html">Pure Scala</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library.html">Stainless Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genc.html">Safe C Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="neon.html">Proving Theorems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations of Verification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="casestudies.html">Case Studies</a></li>
@@ -190,7 +191,7 @@ A first attempt to wrap it in a regular Stainless datatype could look like the f
 
 <span class="k">import</span> <span class="nn">scala.collection.concurrent.TrieMap</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">](</span><span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">](</span><span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span>
 </pre></div>
 </div>
 <p>Unfortunately, this will not work as Stainless will complain that it does not
@@ -203,7 +204,7 @@ should be treated as opaque.</p>
 <span class="k">import</span> <span class="nn">scala.collection.concurrent.TrieMap</span>
 <span class="k">import</span> <span class="nn">scala.collection.concurrent.TrieMap</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span>
 </pre></div>
 </div>
 </div>
@@ -216,7 +217,7 @@ should be treated as opaque.</p>
 <span class="k">import</span> <span class="nn">scala.collection.concurrent.TrieMap</span>
 <span class="k">import</span> <span class="nn">scala.collection.concurrent.TrieMap</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span> <span class="o">{</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span> <span class="o">{</span>
 
   <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">K</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
     <span class="n">theMap</span> <span class="n">contains</span> <span class="n">k</span>
@@ -232,7 +233,7 @@ not attempt to extract the method’s body, and we can thus freely refer to any 
 
 <span class="k">import</span> <span class="nn">scala.collection.concurrent.TrieMap</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span> <span class="o">{</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span> <span class="o">{</span>
 
   <span class="nd">@extern</span>
   <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">K</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
@@ -253,13 +254,13 @@ One can inspect which types are replaced during recovery, by supplying the <code
 <p>Let’s also define another extern function, which creates a new empty map:</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">TrieMapWrapper</span> <span class="o">{</span>
   <span class="nd">@extern</span>
-  <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">]</span><span class="k">:</span> <span class="kt">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="nc">TrieMapWrapper</span><span class="o">(</span><span class="nc">TrieMap</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span>
+  <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span><span class="k">:</span> <span class="kt">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nc">TrieMapWrapper</span><span class="o">(</span><span class="nc">TrieMap</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span>
   <span class="o">}</span>
 <span class="o">}</span>
 
-<span class="k">def</span> <span class="n">prop1</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">wrapper</span> <span class="k">=</span> <span class="nc">TrieMapWrapper</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span>
+<span class="k">def</span> <span class="n">prop1</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">wrapper</span> <span class="o">=</span> <span class="nc">TrieMapWrapper</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">String</span><span class="o">]</span>
   <span class="n">assert</span><span class="o">(!</span><span class="n">wrapper</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="mi">42</span><span class="o">))</span> <span class="c1">// invalid</span>
 <span class="o">}</span>
 </pre></div>
@@ -270,10 +271,10 @@ by itself that the result of <code class="docutils literal notranslate"><span cl
 for any key <code class="docutils literal notranslate"><span class="pre">k</span></code> of type <code class="docutils literal notranslate"><span class="pre">K</span></code>, the result of <code class="docutils literal notranslate"><span class="pre">TrieMapWrapper.empty</span></code> does not contain the key <code class="docutils literal notranslate"><span class="pre">k</span></code>.</p>
 <div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">TrieMapWrapper</span> <span class="o">{</span>
   <span class="nd">@extern</span>
-  <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">]</span><span class="k">:</span> <span class="kt">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="nc">TrieMapWrapper</span><span class="o">(</span><span class="nc">TrieMap</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span>
-  <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="k">=&gt;</span>
-    <span class="n">forall</span><span class="o">((</span><span class="n">k</span><span class="k">:</span> <span class="kt">K</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">!</span><span class="n">res</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">k</span><span class="o">))</span>
+  <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span><span class="k">:</span> <span class="kt">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nc">TrieMapWrapper</span><span class="o">(</span><span class="nc">TrieMap</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span>
+  <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="o">=&gt;</span>
+    <span class="n">forall</span><span class="o">((</span><span class="n">k</span><span class="k">:</span> <span class="kt">K</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="n">res</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">k</span><span class="o">))</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -283,8 +284,8 @@ for any key <code class="docutils literal notranslate"><span class="pre">k</span
 <div class="section" id="purity-annotations">
 <h2>Purity annotations<a class="headerlink" href="#purity-annotations" title="Permalink to this headline">¶</a></h2>
 <p>Let’s now see what happens when we call <code class="docutils literal notranslate"><span class="pre">contains</span></code> twice:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">prop1</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">wrapper</span> <span class="k">=</span> <span class="nc">TrieMapWrapper</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">prop1</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">wrapper</span> <span class="o">=</span> <span class="nc">TrieMapWrapper</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">String</span><span class="o">]</span>
   <span class="n">assert</span><span class="o">(!</span><span class="n">wrapper</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="mi">42</span><span class="o">))</span>
   <span class="n">assert</span><span class="o">(!</span><span class="n">wrapper</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="mi">42</span><span class="o">))</span>
 <span class="o">}</span>
@@ -302,7 +303,7 @@ for any key <code class="docutils literal notranslate"><span class="pre">k</span
 by default that extern functions and methods mutate their arguments. Indeed, because Stainless
 does not know about the body of such methods, it cannot know whether such a function is pure or not.
 It is thus up to the user to instruct Stainless otherwise, by annotating the function with <code class="docutils literal notranslate"><span class="pre">&#64;pure</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span> <span class="o">{</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">](</span><span class="nd">@extern</span> <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span> <span class="o">{</span>
 
   <span class="nd">@extern</span> <span class="nd">@pure</span>
   <span class="k">def</span> <span class="n">contains</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">K</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
@@ -327,9 +328,9 @@ It is thus up to the user to instruct Stainless otherwise, by annotating the fun
 
 <span class="k">import</span> <span class="nn">scala.collection.concurrent.TrieMap</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">](</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">](</span>
   <span class="nd">@extern</span>
-  <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">]</span>
+  <span class="n">theMap</span><span class="k">:</span> <span class="kt">TrieMap</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span>
 <span class="o">)</span> <span class="o">{</span>
 
   <span class="nd">@extern</span> <span class="nd">@pure</span>
@@ -354,17 +355,17 @@ It is thus up to the user to instruct Stainless otherwise, by annotating the fun
 
 <span class="k">object</span> <span class="nc">TrieMapWrapper</span> <span class="o">{</span>
   <span class="nd">@extern</span> <span class="nd">@pure</span>
-  <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">]</span><span class="k">:</span> <span class="kt">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="nc">TrieMapWrapper</span><span class="o">(</span><span class="nc">TrieMap</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">])</span>
-  <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="k">=&gt;</span>
-    <span class="n">forall</span><span class="o">((</span><span class="n">k</span><span class="k">:</span> <span class="kt">K</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">!</span><span class="n">res</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">k</span><span class="o">))</span>
+  <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span><span class="k">:</span> <span class="kt">TrieMapWrapper</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nc">TrieMapWrapper</span><span class="o">(</span><span class="nc">TrieMap</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">K</span><span class="p">,</span> <span class="kt">V</span><span class="o">])</span>
+  <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="o">=&gt;</span>
+    <span class="n">forall</span><span class="o">((</span><span class="n">k</span><span class="k">:</span> <span class="kt">K</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="n">res</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="n">k</span><span class="o">))</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 <p>And we can now reason about our wrapper for <code class="docutils literal notranslate"><span class="pre">TrieMap</span></code>:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">prop2</span> <span class="k">=</span> <span class="o">{</span>
-  <span class="k">val</span> <span class="n">wrapper</span> <span class="k">=</span> <span class="nc">TrieMapWrapper</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">BigInt</span>, <span class="kt">String</span><span class="o">]</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">prop2</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">wrapper</span> <span class="o">=</span> <span class="nc">TrieMapWrapper</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">BigInt</span><span class="p">,</span> <span class="kt">String</span><span class="o">]</span>
   <span class="n">assert</span><span class="o">(!</span><span class="n">wrapper</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="mi">42</span><span class="o">))</span>
   <span class="n">wrapper</span><span class="o">.</span><span class="n">insert</span><span class="o">(</span><span class="mi">42</span><span class="o">,</span> <span class="s">&quot;Hello&quot;</span><span class="o">)</span>
   <span class="n">assert</span><span class="o">(</span><span class="n">wrapper</span><span class="o">.</span><span class="n">contains</span><span class="o">(</span><span class="mi">42</span><span class="o">))</span>
@@ -407,7 +408,7 @@ It is thus up to the user to instruct Stainless otherwise, by annotating the fun
   <div role="contentinfo">
     <p>
         &copy; Copyright 2009-2019 EPFL, Lausanne.
-      Last updated on Sep 16, 2020.
+      Last updated on Jan 20, 2021.
 
     </p>
   </div> 
@@ -428,7 +429,7 @@ It is thus up to the user to instruct Stainless otherwise, by annotating the fun
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.7.3',
+            VERSION:'0.7.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -438,7 +439,6 @@ It is thus up to the user to instruct Stainless otherwise, by annotating the fun
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Stainless documentation &mdash; Stainless 0.7.3 documentation</title>
+  <title>Stainless documentation &mdash; Stainless 0.7.6 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Stainless 0.7.3 documentation" href="#"/>
+    <link rel="top" title="Stainless 0.7.6 documentation" href="#"/>
         <link rel="next" title="Introduction" href="intro.html"/> 
 
   
@@ -97,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wrap.html">Working With Existing Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="purescala.html">Pure Scala</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library.html">Stainless Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genc.html">Safe C Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="neon.html">Proving Theorems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations of Verification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="casestudies.html">Case Studies</a></li>
@@ -180,6 +181,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing Stainless</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#general-requirement">General Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#running-code-with-stainless-dependencies">Running Code with Stainless dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#use-standalone-release-recommended">Use Standalone Release (recommended)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#via-docker">Via Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#usage-with-sbt">Usage With Sbt</a></li>
@@ -272,6 +274,13 @@
 <li class="toctree-l2"><a class="reference internal" href="library.html#set-t-map-t">Set[T], Map[T]</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="genc.html">Safe C Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="genc.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genc.html#supported-features">Supported Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genc.html#custom-conversion">Custom Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genc.html#api-for-safe-low-level-programs">API For Safe Low Level Programs</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="neon.html">Proving Theorems</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="neon.html#a-practical-introduction-to-proofs">A practical introduction to proofs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neon.html#techniques-for-proving-non-trivial-propositions">Techniques for proving non-trivial propositions</a></li>
@@ -330,7 +339,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2009-2019 EPFL, Lausanne.
-      Last updated on Sep 16, 2020.
+      Last updated on Jan 20, 2021.
 
     </p>
   </div> 
@@ -351,7 +360,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.7.3',
+            VERSION:'0.7.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -361,7 +370,6 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

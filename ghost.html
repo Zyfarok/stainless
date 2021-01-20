@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Ghost Context &mdash; Stainless 0.7.3 documentation</title>
+  <title>Ghost Context &mdash; Stainless 0.7.6 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Stainless 0.7.3 documentation" href="index.html"/>
+    <link rel="top" title="Stainless 0.7.6 documentation" href="index.html"/>
         <link rel="next" title="Working With Existing Code" href="wrap.html"/>
         <link rel="prev" title="Imperative" href="imperative.html"/> 
 
@@ -105,6 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wrap.html">Working With Existing Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="purescala.html">Pure Scala</a></li>
 <li class="toctree-l1"><a class="reference internal" href="library.html">Stainless Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genc.html">Safe C Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="neon.html">Proving Theorems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="limitations.html">Limitations of Verification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="casestudies.html">Case Studies</a></li>
@@ -187,15 +188,15 @@ and prove that some properties are satisfied by the program.</p>
 <span class="k">import</span> <span class="nn">stainless.lang.annotation._</span>
 
 <span class="k">def</span> <span class="n">isSorted</span><span class="o">(</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">BigInt</span><span class="o">])</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">list</span> <span class="k">match</span> <span class="o">{</span>
-  <span class="k">case</span> <span class="nc">Nil</span><span class="o">()</span>                            <span class="k">=&gt;</span> <span class="kc">true</span>
-  <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Nil</span><span class="o">())</span>                   <span class="k">=&gt;</span> <span class="kc">true</span>
-  <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">x2</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span> <span class="k">if</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">x2</span> <span class="k">=&gt;</span> <span class="kc">false</span>
-  <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">xs</span><span class="o">)</span>                      <span class="k">=&gt;</span> <span class="n">isSorted</span><span class="o">(</span><span class="n">xs</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Nil</span><span class="o">()</span>                            <span class="o">=&gt;</span> <span class="kc">true</span>
+  <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="nc">Nil</span><span class="o">())</span>                   <span class="o">=&gt;</span> <span class="kc">true</span>
+  <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">x1</span><span class="o">,</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">x2</span><span class="o">,</span> <span class="k">_</span><span class="o">))</span> <span class="k">if</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">x2</span> <span class="o">=&gt;</span> <span class="kc">false</span>
+  <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">xs</span><span class="o">)</span>                      <span class="o">=&gt;</span> <span class="n">isSorted</span><span class="o">(</span><span class="n">xs</span><span class="o">)</span>
 <span class="o">}</span>
 
-<span class="k">def</span> <span class="n">sort</span><span class="o">(</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">BigInt</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">BigInt</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+<span class="k">def</span> <span class="n">sort</span><span class="o">(</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">BigInt</span><span class="o">])</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">BigInt</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span>
   <span class="cm">/* ... */</span>
-<span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="k">=&gt;</span>
+<span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="o">=&gt;</span>
   <span class="n">res</span><span class="o">.</span><span class="n">contents</span> <span class="o">==</span> <span class="n">list</span><span class="o">.</span><span class="n">contents</span> <span class="o">&amp;&amp;</span>
   <span class="n">isSorted</span><span class="o">(</span><span class="n">res</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
   <span class="n">res</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">l</span><span class="o">.</span><span class="n">size</span>
@@ -254,7 +255,7 @@ will then proceed to eliminate ghost methods and expressions from the programs.<
   <span class="o">)</span> <span class="o">{</span>
     <span class="k">def</span> <span class="n">put</span><span class="o">(</span><span class="n">msg</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
 
-      <span class="n">msgs</span> <span class="k">=</span> <span class="n">msg</span> <span class="o">::</span> <span class="n">msgs</span>
+      <span class="n">msgs</span> <span class="o">=</span> <span class="n">msg</span> <span class="o">::</span> <span class="n">msgs</span>
       <span class="nc">_put</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span>
     <span class="o">}</span>
 
@@ -263,54 +264,54 @@ will then proceed to eliminate ghost methods and expressions from the programs.<
       <span class="n">queue</span><span class="o">.</span><span class="n">addFirst</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span>
     <span class="o">}</span>
 
-    <span class="k">def</span> <span class="n">take</span><span class="o">()</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
-      <span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="nc">_take</span><span class="o">()</span>
-      <span class="n">msgs</span> <span class="k">=</span> <span class="n">msgs</span><span class="o">.</span><span class="n">tailOption</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="nc">Nil</span><span class="o">())</span>
+    <span class="k">def</span> <span class="n">take</span><span class="o">()</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">_take</span><span class="o">()</span>
+      <span class="n">msgs</span> <span class="o">=</span> <span class="n">msgs</span><span class="o">.</span><span class="n">tailOption</span><span class="o">.</span><span class="n">getOrElse</span><span class="o">(</span><span class="nc">Nil</span><span class="o">())</span>
       <span class="n">result</span>
-    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="k">=&gt;</span>
+    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="o">=&gt;</span>
       <span class="n">res</span> <span class="o">==</span> <span class="n">old</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="n">msgs</span><span class="o">.</span><span class="n">headOption</span>
     <span class="o">}</span>
 
     <span class="nd">@extern</span> <span class="nd">@pure</span>
-    <span class="k">private</span> <span class="k">def</span> <span class="nc">_take</span><span class="o">()</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">private</span> <span class="k">def</span> <span class="nc">_take</span><span class="o">()</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span>
       <span class="nc">Option</span><span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="n">pollFirst</span><span class="o">())</span>
-    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="k">=&gt;</span>
+    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="o">=&gt;</span>
       <span class="n">res</span> <span class="o">==</span> <span class="n">msgs</span><span class="o">.</span><span class="n">headOption</span>
     <span class="o">}</span>
 
     <span class="nd">@extern</span> <span class="nd">@pure</span>
     <span class="k">def</span> <span class="n">isEmpty</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
       <span class="n">queue</span><span class="o">.</span><span class="n">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="k">=&gt;</span>
+    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="o">=&gt;</span>
       <span class="n">res</span> <span class="o">==</span> <span class="n">msgs</span><span class="o">.</span><span class="n">isEmpty</span>
     <span class="o">}</span>
   <span class="o">}</span>
 
   <span class="k">object</span> <span class="nc">MsgQueue</span> <span class="o">{</span>
     <span class="nd">@extern</span> <span class="nd">@pure</span>
-    <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="k">:</span> <span class="kt">MsgQueue</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">empty</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span><span class="k">:</span> <span class="kt">MsgQueue</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span>
       <span class="nc">MsgQueue</span><span class="o">(</span><span class="k">new</span> <span class="nc">ArrayDeque</span><span class="o">(),</span> <span class="nc">Nil</span><span class="o">())</span>
-    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="k">=&gt;</span>
+    <span class="o">}</span> <span class="n">ensuring</span> <span class="o">{</span> <span class="n">res</span> <span class="o">=&gt;</span>
       <span class="n">res</span><span class="o">.</span><span class="n">isEmpty</span> <span class="o">&amp;&amp;</span> <span class="n">res</span><span class="o">.</span><span class="n">msgs</span><span class="o">.</span><span class="n">isEmpty</span>
     <span class="o">}</span>
   <span class="o">}</span>
 
-  <span class="k">def</span> <span class="n">test</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">queue</span> <span class="k">=</span> <span class="nc">MsgQueue</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+  <span class="k">def</span> <span class="n">test</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">queue</span> <span class="o">=</span> <span class="nc">MsgQueue</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
 
     <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="o">(</span><span class="s">&quot;World&quot;</span><span class="o">)</span>
     <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">)</span>
 
     <span class="n">assert</span><span class="o">(!</span><span class="n">queue</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="n">a</span> <span class="k">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">take</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">a</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">take</span><span class="o">()</span>
     <span class="n">assert</span><span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">))</span>
 
-    <span class="k">val</span> <span class="n">b</span> <span class="k">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">take</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">b</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">take</span><span class="o">()</span>
     <span class="n">assert</span><span class="o">(</span><span class="n">b</span> <span class="o">==</span> <span class="nc">Some</span><span class="o">(</span><span class="s">&quot;World&quot;</span><span class="o">))</span>
     <span class="n">assert</span><span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span>
 
-    <span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">take</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">c</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">take</span><span class="o">()</span>
     <span class="n">assert</span><span class="o">(!</span><span class="n">c</span><span class="o">.</span><span class="n">isDefined</span><span class="o">)</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -339,7 +340,7 @@ will then proceed to eliminate ghost methods and expressions from the programs.<
   <div role="contentinfo">
     <p>
         &copy; Copyright 2009-2019 EPFL, Lausanne.
-      Last updated on Sep 16, 2020.
+      Last updated on Jan 20, 2021.
 
     </p>
   </div> 
@@ -360,7 +361,7 @@ will then proceed to eliminate ghost methods and expressions from the programs.<
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.7.3',
+            VERSION:'0.7.6',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -370,7 +371,6 @@ will then proceed to eliminate ghost methods and expressions from the programs.<
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
